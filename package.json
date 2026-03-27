@@ -1,0 +1,92 @@
+{
+  "name": "@coreify/graph",
+  "version": "0.1.0",
+  "description": "Headless, framework-agnostic graph engine with optional React bindings",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./algorithms": {
+      "types": "./dist/algorithms/index.d.ts",
+      "import": "./dist/algorithms/index.js",
+      "require": "./dist/algorithms/index.cjs"
+    },
+    "./serialization": {
+      "types": "./dist/serialization/index.d.ts",
+      "import": "./dist/serialization/index.js",
+      "require": "./dist/serialization/index.cjs"
+    },
+    "./persist": {
+      "types": "./dist/persist/index.d.ts",
+      "import": "./dist/persist/index.js",
+      "require": "./dist/persist/index.cjs"
+    },
+    "./worker": {
+      "types": "./dist/worker/index.d.ts",
+      "import": "./dist/worker/index.js",
+      "require": "./dist/worker/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\""
+  },
+  "keywords": [
+    "graph",
+    "algorithms",
+    "force-layout",
+    "react",
+    "typescript"
+  ],
+  "author": "Coreify",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coreify/graph.git"
+  },
+  "homepage": "https://github.com/coreify/graph",
+  "bugs": {
+    "url": "https://github.com/coreify/graph/issues"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "jsdom": "^27.0.0",
+    "prettier": "^3.8.1",
+    "react-dom": "^19.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  }
+}
