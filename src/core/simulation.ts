@@ -164,6 +164,7 @@ export class ForceSimulation<TNodeData = unknown, TEdgeData = unknown> {
   fixed = new Uint8Array(0)
   count = 0
   nodeIds: string[] = []
+  nodeLabels: string[] = []
 
   private idToIndex = new Map<string, number>()
   private edgeSource = new Int32Array(0)
@@ -188,10 +189,12 @@ export class ForceSimulation<TNodeData = unknown, TEdgeData = unknown> {
     }
 
     this.nodeIds.length = 0
+    this.nodeLabels.length = 0
     this.idToIndex.clear()
 
     nodes.forEach((node, index) => {
       this.nodeIds.push(node.id)
+      this.nodeLabels.push(node.label)
       this.idToIndex.set(node.id, index)
       this.x[index] = node.x
       this.y[index] = node.y
@@ -407,5 +410,47 @@ export class ForceSimulation<TNodeData = unknown, TEdgeData = unknown> {
         fixed: this.fixed[index] === 1,
       }
     })
+  }
+}
+
+export interface InlineSimulation<TNodeData = unknown, TEdgeData = unknown> {
+  sync(
+    nodes: GraphNode<TNodeData>[],
+    edges: GraphEdge<TEdgeData>[],
+    options?: {
+      centerX?: number
+      centerY?: number
+      idealLength?: number
+    }
+  ): void
+  tick(): {
+    running: boolean
+    nodes: GraphNode<TNodeData>[]
+  }
+}
+
+export function createInlineSimulation<TNodeData = unknown, TEdgeData = unknown>(): InlineSimulation<
+  TNodeData,
+  TEdgeData
+> {
+  const simulation = new ForceSimulation<TNodeData, TEdgeData>()
+  let nodes: GraphNode<TNodeData>[] = []
+
+  return {
+    sync(nextNodes, edges, options = {}) {
+      nodes = nextNodes.map((node) => ({ ...node }))
+      simulation.mergeSyncNodes(nodes)
+      simulation.syncEdges(edges)
+      simulation.setCenter(options.centerX ?? 300, options.centerY ?? 250)
+      simulation.setIdealLength(options.idealLength ?? 140)
+    },
+    tick() {
+      const running = simulation.tick()
+      nodes = simulation.writeBack(nodes)
+      return {
+        running,
+        nodes: nodes.map((node) => ({ ...node })),
+      }
+    },
   }
 }

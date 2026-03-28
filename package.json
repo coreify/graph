@@ -1,6 +1,6 @@
 {
   "name": "@coreify/graph",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Headless, framework-agnostic graph engine with optional React bindings",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -64,9 +64,9 @@
   "author": "Coreify",
   "repository": {
     "type": "git",
-    "url": "https://github.com/coreify/graph.git"
+    "url": "https://github.com/coreify/graph"
   },
-  "homepage": "https://github.com/coreify/graph",
+  "homepage": "https://graph.js.org",
   "bugs": {
     "url": "https://github.com/coreify/graph/issues"
   },

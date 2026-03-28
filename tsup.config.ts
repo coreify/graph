@@ -21,5 +21,5 @@ export default defineConfig({
   target: "es2020",
   treeshake: true,
   splitting: false,
-  bundle: false,
+  bundle: true,
 })

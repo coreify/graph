@@ -1,4 +1,4 @@
-import { ForceSimulation } from "../core/simulation"
+import { createInlineSimulation } from "../core/simulation"
 import type { GraphEdge, GraphNode } from "../core/types"
 
 type WorkerRequest<TNodeData, TEdgeData> =
@@ -152,29 +152,4 @@ export function createWorkerSimulation<TNodeData = unknown, TEdgeData = unknown>
   }
 }
 
-export function createInlineSimulation<TNodeData = unknown, TEdgeData = unknown>() {
-  const simulation = new ForceSimulation<TNodeData, TEdgeData>()
-  let nodes: GraphNode<TNodeData>[] = []
-
-  return {
-    sync(
-      nextNodes: GraphNode<TNodeData>[],
-      edges: GraphEdge<TEdgeData>[],
-      options: { centerX?: number; centerY?: number; idealLength?: number } = {}
-    ) {
-      nodes = nextNodes.map((node) => ({ ...node }))
-      simulation.mergeSyncNodes(nodes)
-      simulation.syncEdges(edges)
-      simulation.setCenter(options.centerX ?? 300, options.centerY ?? 250)
-      simulation.setIdealLength(options.idealLength ?? 140)
-    },
-    tick() {
-      const running = simulation.tick()
-      nodes = simulation.writeBack(nodes)
-      return {
-        running,
-        nodes: nodes.map((node) => ({ ...node })),
-      }
-    },
-  }
-}
+export { createInlineSimulation }

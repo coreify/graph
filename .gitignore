@@ -31,3 +31,6 @@ bun.lock
 yarn.lock
 package-lock.json
 npm-shrinkwrap.json
+
+# Package files
+*.tgz

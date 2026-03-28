@@ -1,4 +1,4 @@
-import { ForceSimulation } from "../../src/core"
+import { createInlineSimulation, ForceSimulation } from "../../src/core"
 import type { GraphEdge, GraphNode } from "../../src/core"
 
 const nodes: GraphNode[] = [
@@ -38,5 +38,19 @@ describe("ForceSimulation", () => {
 
     expect(simulation.x[0]).toBe(200)
     expect(simulation.y[0]).toBe(150)
+  })
+
+  test("tracks node labels and exposes inline simulation from core", () => {
+    const simulation = new ForceSimulation()
+    simulation.syncNodes(nodes)
+
+    expect(simulation.nodeLabels).toEqual(["0", "1"])
+
+    const inline = createInlineSimulation()
+    inline.sync(nodes, edges, { centerX: 100, centerY: 100, idealLength: 80 })
+    const result = inline.tick()
+
+    expect(result.nodes).toHaveLength(2)
+    expect(typeof result.running).toBe("boolean")
   })
 })

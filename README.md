@@ -28,7 +28,7 @@ npm install react
 ## Package Structure
 
 ```ts
-import { createGraphStore, ForceSimulation } from "@coreify/graph/core"
+import { createGraphStore, createInlineSimulation, ForceSimulation } from "@coreify/graph/core"
 import { useGraphStore, useGraphSelector } from "@coreify/graph/react"
 import { bfs, dijkstra, topoSort } from "@coreify/graph/algorithms"
 import { serialize, deserialize, toDOT } from "@coreify/graph/serialization"
@@ -36,11 +36,13 @@ import { saveToLocalStorage, loadFromLocalStorage } from "@coreify/graph/persist
 import { createWorkerSimulation } from "@coreify/graph/worker"
 ```
 
-The root barrel also re-exports everything:
+The root barrel also re-exports the main headless APIs:
 
 ```ts
 import { createGraphStore, bfs, serialize } from "@coreify/graph"
 ```
+
+Use explicit subpaths for `worker`.
 
 ## Core Example
 
@@ -159,6 +161,16 @@ while (simulation.tick()) {
 }
 
 const nextNodes = simulation.writeBack(nodes)
+```
+
+If you want a synchronous simulation loop without a worker, use the inline helper:
+
+```ts
+import { createInlineSimulation } from "@coreify/graph/core"
+
+const simulation = createInlineSimulation()
+simulation.sync(nodes, edges, { centerX: 400, centerY: 300 })
+const { running, nodes: nextNodes } = simulation.tick()
 ```
 
 ## Layouts
